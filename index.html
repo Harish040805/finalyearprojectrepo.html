@@ -88,74 +88,201 @@
     <div class="container">
         <div class="qa-item">
             <div class="question">Question 1: What is the input source for the project and from where it is taken?</div>
-            <div class="answer">Answer: 2 input sources - 1. Live camera in video format, 2. File input as video file</div>
+            <div class="answer">Answer: Image dataset</div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 2: What are all the features of detecting traffic?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: <br>
+                <ul>
+                    <li>Spatial Vehicle Distribution</li>
+                    <li>Inter-vehicle distance (bounding box spatial relationships)</li>
+                    <li>Average Speed</li>
+                    <li>Historical Velocity Trends over 5-minute time steps</li>
+                </ul>
+            </div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 3: From where the features are collected? How the features are extracted? What tool is used for feature extraction?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: <br>
+                WHERE? Kaggle/Caltrans datasets<br>
+                HOW? For Traffic Density, Vehicle Positions, Lane Occupancy: 2D Convolutional layers (Conv2D with 3x3 kernels)<br>
+                For Speed Changes Over Time: LSTM Network with 128 Units<br>
+                TOOLS: PyTorch, TensorFlow / Keras, NumPy, and Scikit-learn<br>
+                WHY? PeMS is the standard, globally accepted real-world traffic benchmark that provides reliable, high-quality, continuous traffic sensor records collected across California highway networks, making it ideal for testing spatiotemporal models without needing hardware installations
+            </div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 4: How the features are extracted? What tool is used for feature extraction?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: <br>
+                <ol>
+                <li>PyTorch
+                    <ul>
+                    <li>Builds and runs the Conv2D layers (to extract spatial features like vehicle density and placement).</li>
+                    <li>LSTM layers (to extract temporal velocity sequences over time) using GPU acceleration.</li>
+                    </ul>
+                </li>
+                <li>TensorFlow / Keras
+                    <ul>
+                    <li>Provides high-level neural network modules to construct, train, and extract feature representations from intermediate layers of the CNN-LSTM architecture.</li>
+                    </ul>
+                </li>
+                <li>NumPy
+                    <ul>
+                    <li>Handles raw dataset reshaping, multidimensional tensor operations (T &times; H &times; W &times; C), sliding window creation, and array processing before feeding features into deep learning models.</li>
+                    </ul>
+                </li>
+                <li>Scikit-learn
+                    <ul>
+                    <li>Performs feature scaling, data normalization (MinMax/Standard scaling), train-test dataset splitting, and feature selection (such as Mutual Information Regression).</li>
+                    </ul>
+                </li>
+                </ol>
+            </div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 5: Using CNN, how the features are extracted?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: <br>
+                <ol>
+                    <li>First Conv2D Layer (3 &times; 3, ReLU): Captures local spatial relationships, such as vehicle positions and immediate road density.</li>
+                    <li>Second Conv2D Layer (3 &times; 3, ReLU): Captures complex inter-vehicle spacing and broader road segment structures.</li>
+                    <li>MaxPooling2D Layer (2 &times; 2): Downsamples feature maps by 50%, reducing spatial dimensions while retaining critical traffic structure data.</li>
+                </ol>
+            </div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 6: On what basis the model classifies the data that it recieves?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: The model performs regression rather than discrete classification. It estimates future traffic speed based on learned spatiotemporal embeddings—evaluating the correlation between vehicle density/spacing (extracted by CNN) and past velocity dynamics (modeled by LSTM).</div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 7: What is the augumentation and range of the classification?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: <br>
+                <ol>
+                    <li>Augmentation:</li>
+                    <ul>
+                        <li>Temporal sliding window slicing</li>
+                        <li>Feature normalization/scaling</li>
+                        <li>Random sequence jittering</li>
+                        <li>Sequence masking</li>
+                    </ul>
+                </ol>
+                <ol>
+                    <li>Range & Output: </li>
+                    Continuous numerical speed forecast from 0 to 120 km/h (or mph) <br>
+                    Categorized into 4 levels: 
+                    <ul>
+                        <li>Free </li>
+                        <li>Flow Slow </li>
+                        <li>Traffic Congested Heavy</li>
+                        <li>Bottleneck</li>
+                    </ul>
+                </ol>
+            </div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 8: What are the methods used for vehicle identification?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: 
+                <ol>
+                <li>CNN Feature Extraction: Passes video frame matrices through Conv2D layers (3 &times; 3 kernels) to learn vehicle patterns, shapes, and spatial density without physical hardware sensors</li>
+                <li>Bounding Box Analysis: Evaluates spatial bounding box coordinates across consecutive frame sequences to calculate inter-vehicle spacing and positional distribution</li>
+                <li>Dataset Metric Analytics: Processes pre-recorded software traffic logs (flow volume, speed, and lane occupancy rates) directly from the PeMS dataset files</li>
+                </ol>
+            </div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 9: What are all the features of detecting weather?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer:
+                <ul>
+                    <li>Road Visibility Levels</li>
+                    <li>Ambient Lighting/Brightness Variations</li>
+                    <li>Precipitation Indicators (Rain/Fog Image Degradation)</li>
+                    <li>Surface Road Wetness Impact Factors</li>
+                </ul>
+            </div>
         </div>
-
         <div class="qa-item">
             <div class="question">Question 10: What is the refresh rate for the live video?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: 15 to 30 FPS (Frames Per Second) with 5-minute sliding time windows for traffic speed forecasting</div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 11: What is the range for the live video? What are the levels for the live video? From that, how the frames are taken?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: <br>
+                <ol>
+                    <li>Range: Covers a 50 to 200 meter visible stretch of road per camera.</li>
+                    <li>Levels: Captures both close-range vehicle spacing (micro level) and overall road traffic density (macro level).</li>
+                    <li>Frame Extraction: Video plays at 15 to 30 frames per second (FPS), and software samples 1 frame at regular time intervals (e.g., every 5 seconds) to build input data sequences.</li>
+                </ol>
+            </div>
         </div>
 
         <div class="qa-item">
-            <div class="question">Question 12: From where the datasets are taken? Why is the dataset taken from this platform?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="question">Question 12: What is the format of dataset?</div>
+            <div class="answer">Answer: <br>
+            <ol>
+                <li>.npz format for storing multi-dimensional traffic arrays (speed, flow, and occupancy combined)</li>
+                <li>.csv format for structured time-series speed and traffic logs</li>
+            </ol>
+1. .npz Format (Numpy Zipped Files):
+<br><br>
+Used in the Model Training & Feature Extraction Pipeline (Data Preprocessing Module). <br>
+Stores the combined multi-dimensional traffic arrays containing Speed, Flow Volume, and Lane Occupancy across all detector stations and time steps. <br>
+.npz is used because, it compresses large multi-dimensional NumPy arrays into a single, light file without losing data precision. <br>
+It keeps multiple related datasets (e.g., speed, flow, occupancy) grouped together under one file using simple keys. <br>
+Data is stored as .npz for my project because, Deep learning models (CNN and LSTM) require input data in 3D tensor shapes (Time Steps x Detector Stations x 
+Features). <br>
+.npz natively preserves these multi-dimensional shapes. <br>
+It loads directly into Python memory instantly as NumPy arrays without requiring slow text parsing.
+<br><br>
+2. .csv Format (Comma Separated Values):
+<br><br>
+Used in the Input Data & Output Logging Modules (and raw dataset inspection). <br>
+Stores 2D time-series traffic logs, historical speed sequences, and final predicted speed outputs for display on the React frontend/Flask backend. <br>
+.csv is used because, it is simple and human-readable (columns and rows). <br>
+Supported by almost all tools and libraries like Pandas and Excel. <br>
+Perfect for flat, sequential time-series data where each row represents a timestamp and each column represents a traffic attribute or sensor ID. <br>
+Data is stored as .csv for your project because, it is ideal for viewing, logging and passing structured 2D traffic time-series records into data analysis tools 
+like Pandas for feature scaling and visualization. <br>
+Easily integrates with web backend frameworks (Flask/PostgreSQL) to export or render final predicted speed results to the user interface. <br>
+            </div>
         </div>
 
         <div class="qa-item">
-            <div class="question">Question 13: What is the format of dataset?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="question">Question 13: Why do these formats used specifically?</div>
+            <div class="answer">Answer:
+If .npz is NOT used...
+<br><br>
+Data Shape Loss: Standard text files cannot naturally hold 3D/4D matrix structures, forcing you to write complex, slow code to reconstruct the array dimensions 
+every time.
+Memory Overhead & Slow Training: Training will slow down significantly because loading large raw traffic matrices will take much longer and use much more RAM.
+<br><br>
+If .csv is NOT used...
+<br><br>
+Loss of Readability: You won't be able to easily open, inspect, or audit raw input logs and predicted speed outputs using simple tools like Excel or standard 
+text editors.
+Integration Complexity: Exporting model predictions to the frontend or database will require extra custom conversion steps instead of standard tabular file parsing.
+            </div>
         </div>
 
         <div class="qa-item">
             <div class="question">Question 14: What are the security measures taken to develop this project?</div>
-            <div class="answer">Answer: The answer goes here...</div>
+            <div class="answer">Answer: <br>
+<ol>
+    <li>Input Validation: Sanitizes and validates all uploaded video and dataset files to prevent malicious code execution or file format exploits.</li>
+    <li>API Security: Uses JWT (JSON Web Tokens) for authenticated and encrypted communication between the React frontend and Flask backend.</li>
+    <li>Database Access Control: Implements Role-Based Access Control (RBAC) in PostgreSQL/MongoDB to protect system records and user logs from unauthorized access.</li>
+    <li>Environment Protection: Safely stores database credentials, secret keys, and configuration parameters in .env environment files instead of hardcoding them into the codebase.</li>
+</ol>
+            
+            </div>
         </div>
     </div>
-
 </body>
 </html>
